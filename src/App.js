@@ -24,7 +24,7 @@ async function fetchNotes() {
   setNotes(notesFromAPI);
 }
 async function createNote(event) {
-  event.preventDefault();
+   event.preventDefault();
   const form = new FormData(event.target);
   const image = form.get("image");
   const data = {
