@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import { API, Storage } from 'aws-amplify';
+import { API, Storage } from "aws-amplify";
 import {
   Button,
   Flex,
@@ -11,7 +11,7 @@ import {
   TextField,
   View,
   withAuthenticator,
-} from '@aws-amplify/ui-react';
+} from "@aws-amplify/ui-react";
 import { listNotes } from "./graphql/queries";
 import {
   createNote as createNoteMutation,
@@ -26,7 +26,7 @@ const App = ({ signOut }) => {
   }, []);
 
   async function fetchNotes() {
-    const apiData = await API.graphql({ query: listNotes });
+   const apiData = await API.graphql({ query: listNotes });
   const notesFromAPI = apiData.data.listNotes.items;
   await Promise.all(
     notesFromAPI.map(async (note) => {
@@ -41,7 +41,7 @@ const App = ({ signOut }) => {
   }
 
   async function createNote(event) {
-   event.preventDefault();
+     event.preventDefault();
   const form = new FormData(event.target);
   const image = form.get("image");
   const data = {
@@ -56,9 +56,9 @@ const App = ({ signOut }) => {
   });
   fetchNotes();
   event.target.reset();
-  }
+}
 
-  async function deleteNote({ id }) {
+  async function deleteNote({ id, name }) {
     const newNotes = notes.filter((note) => note.id !== id);
   setNotes(newNotes);
   await Storage.remove(name);
@@ -69,12 +69,6 @@ const App = ({ signOut }) => {
   }
 
   return (
-<View
-  name="image"
-  as="input"
-  type="file"
-  style={{ alignSelf: "end" }}
-/>
     <View className="App">
       <Heading level={1}>My Notes App</Heading>
       <View as="form" margin="3rem 0" onSubmit={createNote}>
@@ -100,6 +94,12 @@ const App = ({ signOut }) => {
           </Button>
         </Flex>
       </View>
+<View
+  name="image"
+  as="input"
+  type="file"
+  style={{ alignSelf: "end" }}
+/>
       <Heading level={2}>Current Notes</Heading>
       <View margin="3rem 0">
         {notes.map((note) => (
@@ -121,8 +121,6 @@ const App = ({ signOut }) => {
       </View>
       <Button onClick={signOut}>Sign Out</Button>
     </View>
-  );
-};
 {notes.map((note) => (
   <Flex
     key={note.id || note.name}
@@ -146,4 +144,6 @@ const App = ({ signOut }) => {
     </Button>
   </Flex>
 ))}
+  );
+};
 export default withAuthenticator(App);
