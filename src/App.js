@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
-import { API, Storage } from "aws-amplify";
+import { API, Storage } from 'aws-amplify';
 import {
   Button,
   Flex,
@@ -11,7 +11,7 @@ import {
   TextField,
   View,
   withAuthenticator,
-} from "@aws-amplify/ui-react";
+} from '@aws-amplify/ui-react';
 import { listNotes } from "./graphql/queries";
 import {
   createNote as createNoteMutation,
@@ -25,7 +25,7 @@ const App = ({ signOut }) => {
     fetchNotes();
   }, []);
 
-  async function fetchNotes() {
+ async function fetchNotes() {
   const apiData = await API.graphql({ query: listNotes });
   const notesFromAPI = apiData.data.listNotes.items;
   await Promise.all(
@@ -39,7 +39,6 @@ const App = ({ signOut }) => {
   );
   setNotes(notesFromAPI);
 }
-
   async function createNote(event) {
   event.preventDefault();
   const form = new FormData(event.target);
@@ -58,7 +57,7 @@ const App = ({ signOut }) => {
   event.target.reset();
 }
 
-  async function deleteNote({ id, name }) {
+ async function deleteNote({ id, name }) {
   const newNotes = notes.filter((note) => note.id !== id);
   setNotes(newNotes);
   await Storage.remove(name);
@@ -102,7 +101,7 @@ const App = ({ signOut }) => {
 />
       <Heading level={2}>Current Notes</Heading>
       <View margin="3rem 0">
-        {notes.map((note) => (
+       {notes.map((note) => (
   <Flex
     key={note.id || note.name}
     direction="row"
